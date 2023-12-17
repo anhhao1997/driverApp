@@ -9,6 +9,7 @@ export default function Register({navigation}) {
             <View style={styles.Regis}>
                 <Text style={styles.title}>Đăng ký tài khoản</Text>
                 <Formik initialValues={{ email: "" }} onSubmit={(values) => {
+                    console.log(values);
                     navigation.navigate("UpdateDetail")
                 }}>
                     {({ handleChange, handleBlur, handleSubmit, values }) => (

@@ -2,8 +2,11 @@ import { Button, TextInput, Image, View, StyleSheet, ImageBackground, TouchableW
 import React from "react";
 import image from "../../assets/Home.jpg";
 import { Formik, Field } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function EditProfile() {
+    const { driver } = useSelector((state) => state.ReducerDriver);
+
     return (
         <ImageBackground source={image} resizeMode="stretch" style={styles.image}>
             <View style={styles.form}>
@@ -15,7 +18,7 @@ export default function EditProfile() {
                                 <Text style={styles.txtStyle}>Họ tên:</Text>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="hoTen"
+                                    placeholder={driver.data.hoTen}
                                     placeholderTextColor="#8080ff"
                                     onChangeText={handleChange("hoTen")}
                                     onBlur={handleBlur("Họ tên")}
@@ -26,7 +29,7 @@ export default function EditProfile() {
                                 <Text style={styles.txtStyle}>Email:</Text>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="email"
+                                    placeholder={driver.data.email}
                                     placeholderTextColor="#8080ff"
                                     onChangeText={handleChange("email")}
                                     onBlur={handleBlur("Email")}

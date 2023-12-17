@@ -2,9 +2,12 @@ import React from "react";
 import { Button, TextInput, View, StyleSheet, ImageBackground, TouchableWithoutFeedback, Text } from "react-native";
 import { Formik, Field } from "formik";
 import image from "../../assets/Home.jpg";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 
 export default function UpdateDetail({ navigation }) {
+    const { driver } = useSelector((state) => state.ReducerDriver);
+
     return (
         <ImageBackground source={image} resizeMode="stretch" style={styles.image}>
             <View style={styles.Regis}>

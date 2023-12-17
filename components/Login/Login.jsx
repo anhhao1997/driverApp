@@ -1,22 +1,39 @@
 import React from "react";
 import { Formik, Field } from "formik";
-import { ImageBackground, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, SafeAreaView, Button, } from "react-native";
+import { ImageBackground, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, SafeAreaView, Button } from "react-native";
 import image from "../../assets/Home.jpg";
-import * as Yup from 'yup';
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction } from "../../Redux/Action/ActionDriver";
+import { getDriverAction } from "../../Redux/Action/ActionDriver";
+import * as Yup from "yup";
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
+    const { infoLogin } = useSelector((state) => state.ReducerDriver);
+    const dispatch = useDispatch();
+    const login = (values) => {
+        const action = loginAction(values);
+        dispatch(action);
+    };
 
+    const checkToken = () => {
+        const action = getDriverAction(infoLogin.token);
+        dispatch(action);
+        if (infoLogin.token) {
+            navigation.navigate("Profile");
+        }
+    };
     return (
         <ImageBackground source={image} resizeMode="stretch" style={styles.image}>
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={{ justifyContent: "center", width: "100%", height: "100%" }}>
                     <Text style={styles.text}>Đăng nhập</Text>
-                    <Formik initialValues={{ }} onSubmit={(values) => {
-                        // Lấy dữ liệu từ form
-                        console.log(values);
-                        navigation.navigate("Profile")
-                        // navigation.navigate("UpdateDetail")
-                    }}>
+                    <Formik
+                        initialValues={{}}
+                        onSubmit={(values) => {
+                            login(values);
+                            checkToken();
+                        ;}}
+                    >
                         {({ handleChange, handleBlur, handleSubmit, values }) => (
                             <View style={styles.backgroundForm}>
                                 <TextInput
@@ -25,25 +42,26 @@ export default function Login({navigation}) {
                                     placeholder="Số điện thoại"
                                     placeholderTextColor="#fff"
                                     onChangeText={handleChange("soDT")}
-                                    onBlur={handleBlur("Sai so DT")}
+                                    onBlur={handleBlur("soDT")}
                                     value={values.soDT}
                                 />
                                 <TextInput
                                     style={styles.input}
+                                    secureTextEntry={true}
                                     placeholder="Mật khẩu"
                                     placeholderTextColor="#fff"
                                     onChangeText={handleChange("matKhau")}
                                     onBlur={handleBlur("matKhau")}
                                     value={values.matKhau}
                                 />
-                                <View style={{marginLeft: 100, marginRight: 100,}}>
-                                    <Button onPress={handleSubmit} title="Đăng nhập"/>
+                                <View style={{ marginLeft: 100, marginRight: 100 }}>
+                                    <Button onPress={handleSubmit} title="Đăng nhập" />
                                 </View>
                             </View>
                         )}
                     </Formik>
                     <View style={styles.forgotRegis}>
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate("ForgotPassword")}>
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate("ForgotProfilePassword")}>
                             <View style={styles.buttonForgot}>
                                 <Text style={styles.textRe}>Quên mật khẩu?</Text>
                             </View>
